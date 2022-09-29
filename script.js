@@ -1,11 +1,12 @@
+/*
 const body = document.querySelector("body");
 
 
 //console.log ("Hej");
-/*Lagra elementet i en variabel, 
-i detta fall heading, så vi har det och kan jobba med det.*/  
-/*med "document.create.." har vi skapat en h1:a, 
-inte hämtat. (Hämta gör vi med getElementById/Class)*/
+//Lagra elementet i en variabel, 
+//i detta fall heading, så vi har det och kan jobba med det.  
+//med "document.create.." har vi skapat en h1:a, 
+//inte hämtat. (Hämta gör vi med getElementById/Class)
 const heading = document.createElement("h1");
 //console.log (heading);
 // consol.log skriver ut det nya elementet i konsollen via index.html. 
@@ -34,3 +35,51 @@ body.appendChild(paragraph);
 const list = document.createElement("ul");
 //Alltså på samma sätt som ovan.
 
+*/
+//skapat 3 användare i en constant som heter objPeople
+
+
+const knapp = document.querySelector ("button")
+const rubrik = document.querySelector ("h1")
+const fot = document.querySelector ("footer")
+const paragraf = document.createElement ("p")
+const loginForm = document.getElementById ("login")
+
+
+const objPeople = [
+
+    {
+        username: "sara",
+        password: "11111"
+    },
+
+    {
+        username: "wilma",
+        password: "22222"
+    },
+
+    {
+        username: "sam",
+        password: "33333"
+    }
+
+]
+
+//Skapar en funktion som heter getInfo()
+//Funktionen hämtar den inmatade informationen från Id i html.
+function getInfo () {
+    const username = document.getElementById ("username").value
+    const password = document.getElementById ("password").value
+
+    for (i = 0; i < objPeople.length; i++) {
+        if (username == objPeople [i].username && password == objPeople [i].password){
+            rubrik.innerHTML = "Välkommen " + username;
+            knapp.innerHTML = "Logga ut";
+            loginForm.style.display = "none";
+            paragraf.style.display = "none";
+            return
+        }
+    }
+    paragraf.innerHTML = "Du har angett fel användarnamn eller lösenord";
+    fot.appendChild(paragraf);
+}
