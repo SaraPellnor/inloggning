@@ -5,20 +5,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css">
     <title>Javascript</title>
 </head>
 <body>
     <header>
         <h1>Var god logga in</h1>
+        <form>
+            <div class="loginForm">
+                <input id = "username" type="text" placeholder="Användarnamn"><br><br>
+                <input id = "password" type="password" placeholder="Lösenord"><br><br>
+            </div>
+            <button type = "button" class = "logIn" onclick = "getInfo()">Logga in</button> <!--När man klickar på knappen så aktiveras "getInfo()"-->
+            <button type = "button" class = "logOut" onclick="leave()">Logga ut</button>
+        </form>
     </header>
     <main>
-        <form>
-            <div id="login">
-                <input id = "username" placeholder="Användarnamn"><br><br>
-                <input id = "password" placeholder="Lösenord"><br><br>
-            </div>
-            <button type = "button" onclick = "getInfo()">Logga in</button> <!--När man klickar på knappen så aktiveras "getInfo()"-->
-        </form>
+
     </main>
     <footer>
         

@@ -39,14 +39,16 @@ const list = document.createElement("ul");
 //skapat 3 användare i en constant som heter objPeople
 
 
-const knapp = document.querySelector ("button")
+const loggInKnapp = document.querySelector (".logIn")
+const loggUtKnapp = document.querySelector (".logOut")
 const rubrik = document.querySelector ("h1")
 const fot = document.querySelector ("footer")
 const paragraf = document.createElement ("p")
-const loginForm = document.getElementById ("login")
+const loginForm = document.querySelector (".loginForm")
 
 
-const objPeople = [
+
+const users = [
 
     {
         username: "sara",
@@ -63,7 +65,11 @@ const objPeople = [
         password: "33333"
     }
 
-]
+];
+localStorage.setItem("myList", JSON.stringify(users));
+const ListFromStorage = JSON.parse (localStorage.getItem)
+localStorage.setItem("username", input.value);
+
 
 //Skapar en funktion som heter getInfo()
 //Funktionen hämtar den inmatade informationen från Id i html.
@@ -71,15 +77,30 @@ function getInfo () {
     const username = document.getElementById ("username").value
     const password = document.getElementById ("password").value
 
-    for (i = 0; i < objPeople.length; i++) {
-        if (username == objPeople [i].username && password == objPeople [i].password){
+    for (i = 0; i < users.length; i++) {
+        if (username == users [i].username && password == users [i].password){
             rubrik.innerHTML = "Välkommen " + username;
-            knapp.innerHTML = "Logga ut";
+            loggInKnapp.style.display = "none";
+            loggUtKnapp.style.display = "block";
             loginForm.style.display = "none";
             paragraf.style.display = "none";
-            return
+            
+        } else {
+            paragraf.innerHTML = "Du har angett fel användarnamn eller lösenord";
+            fot.appendChild(paragraf);
         }
     }
-    paragraf.innerHTML = "Du har angett fel användarnamn eller lösenord";
-    fot.appendChild(paragraf);
+
 }
+
+function leave () {
+
+    const username = document.getElementById ("username").value
+    rubrik.innerHTML = "Hej då " + username;
+    loggInKnapp.style.display = "block";
+    loggUtKnapp.style.display = "none";
+    loginForm.style.display = "block";
+    paragraf.style.display = "none";
+}
+
+console.log ()
