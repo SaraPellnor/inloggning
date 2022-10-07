@@ -48,19 +48,19 @@ if (!localStorage.getItem("users")){ //om nyckeln "users" inte finns,
 localStorage.setItem("users", JSON.stringify (users)); //Sparas arrayen i LS i nyckeln: "users"
 }
 
-
+//lyssnar på "ny användare-knappen"
 makeUserBtn.addEventListener("click", createNewUser);
 
 
 //Funktionen "skapa ny användare"
 function createNewUser () {
-    const x = newUserName.value;
-    if (x.length > 0){
+    const x = newUserName.value; //x är värdet i username
+    if (x.length > 0){ // om värdet ha innehåll-
         const usersList = JSON.parse (localStorage.getItem ("users")); //spara ner arrayen till JS i "usersList" för att lägga till användare i lisan
         usersList.push ({username: newUserName.value, password: newPassword.value}); //pusha in ny användare och lösenord i listan
         localStorage.setItem("users", JSON.stringify (usersList)); //skriv över informationen i nyckeln: "users" och skickar upp till LS igen.
         confirmNewUser.innerHTML = "Nu har du skapat en ny användare, nu kan du logga in!";
-    } else {
+    } else { //annars skicka ut ett meddelande
         confirmNewUser.innerHTML = "Du måste ange nytt namn och lösenord..";
     }
 }
