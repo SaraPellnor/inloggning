@@ -1,53 +1,30 @@
-/*
-const body = document.querySelector("body");
+//Skapade konstanter i JS
+const logInBtn = document.querySelector (".logIn");
+const logOutBtn = document.querySelector (".logOut");
+const h1 = document.querySelector ("h1");
+const obs = document.querySelector (".obs");
+const paragraph = document.createElement ("p");
+const loginForm = document.querySelector (".loginForm");
+const newForm = document.querySelector (".newForm");
+const username = document.querySelector (".username"); 
+const password = document.querySelector (".password");
+const newUserName = document.querySelector (".newUserName");
+const newPassword = document.querySelector (".newPassword");
+const makeUserBtn = document.querySelector (".makeUser");
+const confirmNewUser = document.querySelector (".confirmNewUser");
+const video = document.querySelector ("video");
+
+//Inloggningskontroll//
+function init() { //döpt funktionen till init
+    if (localStorage.getItem ("user")){ //kollar om användare är inloggad
+        success();//hämtar inloggsprofil
+    }
+}
+
+init(); //kör funktionen init
 
 
-//console.log ("Hej");
-//Lagra elementet i en variabel, 
-//i detta fall heading, så vi har det och kan jobba med det.  
-//med "document.create.." har vi skapat en h1:a, 
-//inte hämtat. (Hämta gör vi med getElementById/Class)
-const heading = document.createElement("h1");
-//console.log (heading);
-// consol.log skriver ut det nya elementet i konsollen via index.html. 
-//Bara som en liten kontroll att det fungerar!
-//Resultatet blir 2 taggar, <h1></h1>.
-
-
-//För att stoppa in något innanför taggarna så skriver man såhär:
-//InnerText ersätter texten som ev. står i taggen från början.
-heading.innerText = "Hallå, jag är en heading *rubrik*!!!!!";
-//Vi vill lägga denna texten i "body". 
-//För att göra det, hämtar vi hem vårt body-element och lagrar det.
-//Vi lägger den övers på sidan.
-
-//Nu vill vi lägga våran skapade h1:a i våran body.
-body.appendChild(heading)//lägg till ett barn till bodyn.
-
-
-//Här gör vi samma sak som innan men utan massa komentarer runt. ;)
-const paragraph = document.createElement("p");
-paragraph.innerText = "Hej jag är en paragraf!!!!!";
-body.appendChild(paragraph);
-//Nu har vi skapat en h1-tagg och en p-tagg med hjälp av endast js.
-
-//Nu ska vi göra en lista
-const list = document.createElement("ul");
-//Alltså på samma sätt som ovan.
-
-*/
-//skapat 3 användare i en constant som heter objPeople
-
-
-const loggInKnapp = document.querySelector (".logIn")
-const loggUtKnapp = document.querySelector (".logOut")
-const rubrik = document.querySelector ("h1")
-const fot = document.querySelector ("footer")
-const paragraf = document.createElement ("p")
-const loginForm = document.querySelector (".loginForm")
-
-
-
+//Min array på godkända användare
 const users = [
 
     {
@@ -56,8 +33,8 @@ const users = [
     },
 
     {
-        username: "wilma",
-        password: "22222"
+        username: "fredrik",
+        password: "12345"
     },
 
     {
@@ -66,41 +43,79 @@ const users = [
     }
 
 ];
-localStorage.setItem("myList", JSON.stringify(users));
-const ListFromStorage = JSON.parse (localStorage.getItem)
-localStorage.setItem("username", input.value);
 
-
-//Skapar en funktion som heter getInfo()
-//Funktionen hämtar den inmatade informationen från Id i html.
-function getInfo () {
-    const username = document.getElementById ("username").value
-    const password = document.getElementById ("password").value
-
-    for (i = 0; i < users.length; i++) {
-        if (username == users [i].username && password == users [i].password){
-            rubrik.innerHTML = "Välkommen " + username;
-            loggInKnapp.style.display = "none";
-            loggUtKnapp.style.display = "block";
-            loginForm.style.display = "none";
-            paragraf.style.display = "none";
-            
-        } else {
-            paragraf.innerHTML = "Du har angett fel användarnamn eller lösenord";
-            fot.appendChild(paragraf);
-        }
-    }
-
+if (!localStorage.getItem("users")){ //om nyckeln "users" inte finns,
+localStorage.setItem("users", JSON.stringify (users)); //Sparas arrayen i LS i nyckeln: "users"
 }
+
+
+makeUserBtn.addEventListener("click", createNewUser);
+
+
+//Funktionen "skapa ny användare"
+function createNewUser () {
+    const x = newUserName.value;
+    if (x.length > 0){
+        const usersList = JSON.parse (localStorage.getItem ("users")); //spara ner arrayen till JS i "usersList" för att lägga till användare i lisan
+        usersList.push ({username: newUserName.value, password: newPassword.value}); //pusha in ny användare och lösenord i listan
+        localStorage.setItem("users", JSON.stringify (usersList)); //skriv över informationen i nyckeln: "users" och skickar upp till LS igen.
+        confirmNewUser.innerHTML = "Nu har du skapat en ny användare, nu kan du logga in!";
+    } else {
+        confirmNewUser.innerHTML = "Du måste ange nytt namn och lösenord..";
+    }
+}
+
+
+//logg in-knappen startar funktionen "logInFunction"
+logInBtn.addEventListener("click", logInFunction);
+
+
+
+//Funktionen "logga in användare"
+function logInFunction () {
+
+    //hämtar listan med användare i
+
+    const usersList = JSON.parse (localStorage.getItem ("users"));
+
+    for (const i of usersList) {
+        if (username.value == i.username && password.value == i.password){
+            localStorage.setItem ("user", JSON.stringify (username.value));
+            success ();
+            return; 
+        }
+        paragraph.innerHTML = "Användarnamn eller lösenord finns inte. Skapa en ny användare eller försök igen";
+        obs.appendChild(paragraph);
+        paragraph.style.color = "red";
+
+    }
+}
+
+function success () {
+    
+    h1.innerHTML = "Välkommen " + JSON.parse (localStorage.getItem ("user"));
+    logInBtn.style.display = "none";
+    logOutBtn.style.display = "block";
+    loginForm.style.display = "none";
+    paragraph.style.display = "none"; 
+    newForm.style.display = "none"; 
+    video.style.display = "block";//cool bild från internet 
+}
+
+logOutBtn.addEventListener("click", leave);
+
 
 function leave () {
 
-    const username = document.getElementById ("username").value
-    rubrik.innerHTML = "Hej då " + username;
-    loggInKnapp.style.display = "block";
-    loggUtKnapp.style.display = "none";
+    h1.innerHTML = "Hej då " + JSON.parse (localStorage.getItem ("user"));
+    h1.style.color = "pink";
+    h1.style.fontSize = "500%";
+    logInBtn.style.display = "block";
+    logOutBtn.style.display = "none";
     loginForm.style.display = "block";
-    paragraf.style.display = "none";
+    paragraph.style.display = "none";
+    newForm.style.display = "block";
+    localStorage.removeItem ("user");
+    video.style.display = "none";
+    confirmNewUser.innerHTML = "";
 }
-
-console.log ()
